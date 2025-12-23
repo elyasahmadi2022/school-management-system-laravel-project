@@ -75,7 +75,7 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->get();
 
-        return view('dashboard', compact(
+        return view('dashboard.index', compact(
             'totalTeachers',
             'totalStudents',
             'totalEmployees',

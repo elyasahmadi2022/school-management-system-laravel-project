@@ -1,32 +1,30 @@
 @extends('layouts.app')
 
-@section('title', 'Employee Details')
+@section('title', 'Timetable Entry Details')
 
-@section('page-title', 'Employee Details')
+@section('page-title', 'Timetable Entry Details')
 
 @section('content')
     <div class="max-w-3xl mx-auto">
         <div class="bg-white rounded-lg shadow-md p-6">
-            <div
-                class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4"
-            >
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
-                    {{ $employee->name }}
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Timetable Entry Details
                 </h1>
-                <div class="flex flex-col sm:flex-row gap-2 sm:space-x-2">
+                <div class="flex space-x-2">
                     <a
-                        href="{{ route('employees.edit', $employee) }}"
-                        class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                        href="{{ route('timetables.edit', $timetable) }}"
+                        class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                         <i class="fas fa-edit mr-2"></i>
                         Edit
                     </a>
                     <a
-                        href="{{ route('employees.index') }}"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                        href="{{ route('timetables.index') }}"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Back to Employees
+                        Back to Timetables
                     </a>
                 </div>
             </div>
@@ -34,17 +32,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-gray-50 p-6 rounded-lg">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                        Personal Information
+                        Class & Subject Information
                     </h2>
                     <div class="space-y-4">
                         <div class="flex">
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Name
+                                Class
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                {{ $employee->name }}
+                                {{ $timetable->class->name }}
                             </div>
                         </div>
 
@@ -52,10 +50,10 @@
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Email
+                                Subject
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                {{ $employee->email }}
+                                {{ $timetable->subject->name }}
                             </div>
                         </div>
 
@@ -63,21 +61,10 @@
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Phone
+                                Teacher
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                {{ $employee->phone ?? 'N/A' }}
-                            </div>
-                        </div>
-
-                        <div class="flex">
-                            <div
-                                class="w-1/3 text-sm font-medium text-gray-500"
-                            >
-                                Address
-                            </div>
-                            <div class="w-2/3 text-gray-900">
-                                {{ $employee->address ?? 'N/A' }}
+                                {{ $timetable->teacher->name }}
                             </div>
                         </div>
                     </div>
@@ -85,17 +72,17 @@
 
                 <div class="bg-gray-50 p-6 rounded-lg">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                        Employment Information
+                        Schedule Information
                     </h2>
                     <div class="space-y-4">
                         <div class="flex">
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Position
+                                Day
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                {{ $employee->position }}
+                                {{ $timetable->day_of_week }}
                             </div>
                         </div>
 
@@ -103,10 +90,11 @@
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Department
+                                Time
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                {{ $employee->department }}
+                                {{ $timetable->start_time }} -
+                                {{ $timetable->end_time }}
                             </div>
                         </div>
 
@@ -114,21 +102,10 @@
                             <div
                                 class="w-1/3 text-sm font-medium text-gray-500"
                             >
-                                Salary
+                                Room
                             </div>
                             <div class="w-2/3 text-gray-900">
-                                ${{ number_format($employee->salary, 2) }}
-                            </div>
-                        </div>
-
-                        <div class="flex">
-                            <div
-                                class="w-1/3 text-sm font-medium text-gray-500"
-                            >
-                                Joining Date
-                            </div>
-                            <div class="w-2/3 text-gray-900">
-                                {{ $employee->joining_date ? $employee->joining_date->format('F j, Y') : 'N/A' }}
+                                {{ $timetable->room ?? 'N/A' }}
                             </div>
                         </div>
                     </div>
@@ -137,7 +114,7 @@
 
             <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end">
                 <form
-                    action="{{ route('employees.destroy', $employee) }}"
+                    action="{{ route('timetables.destroy', $timetable) }}"
                     method="POST"
                     class="inline"
                 >
@@ -148,12 +125,12 @@
                         class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                         onclick="
                             return confirm(
-                                'Are you sure you want to delete this employee? This action cannot be undone.',
+                                'Are you sure you want to delete this timetable entry? This action cannot be undone.',
                             );
                         "
                     >
                         <i class="fas fa-trash mr-2"></i>
-                        Delete Employee
+                        Delete Timetable Entry
                     </button>
                 </form>
             </div>

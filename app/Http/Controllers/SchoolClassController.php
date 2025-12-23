@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SchoolClass;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class SchoolClassController extends Controller
@@ -10,6 +11,8 @@ class SchoolClassController extends Controller
     public function index()
     {
         $classes = SchoolClass::with('teacher')->get();
+       
+       
         return view('classes.index', compact('classes'));
     }
 
@@ -36,7 +39,7 @@ class SchoolClassController extends Controller
     public function show(SchoolClass $class)
     {
         $class->load(['teacher', 'students', 'subjects']);
-        return view('classes.show', compact('class'));
+        return view('classes.index', compact('class'));
     }
 
     public function edit(SchoolClass $class)

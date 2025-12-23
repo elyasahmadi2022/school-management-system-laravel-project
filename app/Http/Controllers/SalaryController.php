@@ -4,26 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Salary;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller
 {
     public function index()
     {
-        $salaries = Salary::with('teacher')->get();
+        $salaries = Salary::with('user')->get();
         return view('salaries.index', compact('salaries'));
     }
 
-    public function create()
-    {
-        $teachers = Teacher::all();
-        return view('salaries.create', compact('teachers'));
-    }
+  public function create()
+{
+    $users = User::whereIn('role', ['teacher', 'employee'])->get();
+
+    return view('salaries.create', compact('users'));
+}
+
 
     public function store(Request $request)
     {
         $request->validate([
-            'teacher_id' => 'required|exists:teachers,id',
+            'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
             'month' => 'required|string|max:20',
@@ -51,7 +54,7 @@ class SalaryController extends Controller
     public function update(Request $request, Salary $salary)
     {
         $request->validate([
-            'teacher_id' => 'required|exists:teachers,id',
+            'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
             'month' => 'required|string|max:20',

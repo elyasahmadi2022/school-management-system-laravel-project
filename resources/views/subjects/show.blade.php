@@ -1,44 +1,56 @@
 @extends('layouts.app')
 
-@section('title', 'Teacher Details - ' . $teacher->name)
+@section('title', 'Subject Details - ' . $subject->name)
 
-@section('page-title', 'Teacher Details')
+@section('page-title', 'Subject Details')
 
 @section('content')
     <div class="space-y-6">
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-800">
-                    {{ $teacher->name }}
+                    {{ $subject->name }}
                 </h1>
                 <div class="flex space-x-2">
                     <a
-                        href="{{ route('teachers.edit', $teacher) }}"
+                        href="{{ route('subjects.edit', $subject) }}"
                         class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                         <i class="fas fa-edit mr-2"></i>
                         Edit
                     </a>
                     <a
-                        href="{{ route('teachers.index') }}"
+                        href="{{ route('subjects.index') }}"
                         class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Back to Teachers
+                        Back to Subjects
                     </a>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="text-gray-600 mb-2">
-                        <i class="fas fa-envelope mr-2"></i>
-                        <strong>Email:</strong>
-                        {{ $teacher->email }}
+                        <i class="fas fa-tag mr-2"></i>
+                        <strong>Code:</strong>
+                        {{ $subject->code }}
+                    </p>
+                    <p class="text-gray-600 mb-2">
+                        <i class="fas fa-building mr-2"></i>
+                        <strong>Class:</strong>
+                        {{ $subject->class->name ?? 'N/A' }}
                     </p>
                     <p class="text-gray-600">
-                        <i class="fas fa-book mr-2"></i>
-                        <strong>Subject:</strong>
-                        {{ $teacher->subject }}
+                        <i class="fas fa-user mr-2"></i>
+                        <strong>Teacher:</strong>
+                        {{ $subject->teacher->name ?? 'N/A' }}
+                    </p>
+                </div>
+                <div>
+                    <p class="text-gray-600">
+                        <i class="fas fa-align-left mr-2"></i>
+                        <strong>Description:</strong>
+                        {{ $subject->description ?? 'N/A' }}
                     </p>
                 </div>
             </div>

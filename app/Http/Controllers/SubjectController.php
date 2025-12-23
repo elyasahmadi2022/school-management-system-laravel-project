@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\SchoolClass;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -15,7 +17,9 @@ class SubjectController extends Controller
 
     public function create()
     {
-        return view('subjects.create');
+        $classes = SchoolClass::all();
+        $teachers = Teacher::all();
+        return view('subjects.create', compact('classes', 'teachers'));
     }
 
     public function store(Request $request)
@@ -23,6 +27,8 @@ class SubjectController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
+            'class_id' => 'nullable|exists:classes,id',
+            'teacher_id' => 'nullable|exists:teachers,id',
             'description' => 'nullable|string',
         ]);
 
@@ -39,7 +45,9 @@ class SubjectController extends Controller
 
     public function edit(Subject $subject)
     {
-        return view('subjects.edit', compact('subject'));
+        $classes = SchoolClass::all();
+        $teachers = Teacher::all();
+        return view('subjects.edit', compact('subject', 'classes', 'teachers'));
     }
 
     public function update(Request $request, Subject $subject)
@@ -47,6 +55,8 @@ class SubjectController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
+            'class_id' => 'nullable|exists:classes,id',
+            'teacher_id' => 'nullable|exists:teachers,id',
             'description' => 'nullable|string',
         ]);
 

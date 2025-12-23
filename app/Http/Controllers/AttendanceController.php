@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -15,7 +16,8 @@ class AttendanceController extends Controller
 
     public function create()
     {
-        return view('attendances.create');
+        $students = Student::all();
+        return view('attendances.create', compact('students'));
     }
 
     public function store(Request $request)
@@ -41,7 +43,8 @@ class AttendanceController extends Controller
 
     public function edit(Attendance $attendance)
     {
-        return view('attendances.edit', compact('attendance'));
+        $students = Student::all();
+        return view('attendances.edit', compact('attendance', 'students'));
     }
 
     public function update(Request $request, Attendance $attendance)

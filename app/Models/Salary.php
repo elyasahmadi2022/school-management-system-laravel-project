@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Salary extends Model
 {
     protected $fillable = [
-        'teacher_id',
+        'user_id',
         'amount',
         'payment_date',
         'month',
@@ -21,8 +21,8 @@ class Salary extends Model
         'payment_date' => 'date'
     ];
 
-    public function teacher(): BelongsTo
+    public function User(): BelongsTo
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 }
